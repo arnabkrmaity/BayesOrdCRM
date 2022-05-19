@@ -5,15 +5,14 @@
 \alias{crs.pk}
 \title{crs.pk example.}
 \format{
-A data frame with 20 observations on the following 7 variables:
+A data frame with 20 observations on the following 6 variables:
 \describe{
   \item{Dose}{Predictor}
-  \item{TREATXT}{Tretements}
   \item{SUBJID}{Subject ID}
   \item{Cmax}{PK variable}
   \item{AUClast}{PK variable}
   \item{Cavg}{PK variable}
-  \item{CRS}{response}
+  \item{DLT}{response}
 }
 }
 \source{

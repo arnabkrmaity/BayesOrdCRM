@@ -135,6 +135,9 @@
 #' 
 #' 
 #' @export
+#' 
+#' @importFrom doRNG %dorng%
+
 
 
 bordCRMSim <- function (Design      = NULL,
@@ -173,8 +176,8 @@ bordCRMSim <- function (Design      = NULL,
 
   if(foreach::getDoParRegistered()) {
     ## for the MPI backend set the chunksize to be at most 10
-    if(getDoParName() == "doMPI") {
-      forArgs$.options.mpi <- list(chunkSize=min(10, ceiling(nTrials/getDoParWorkers())))
+    if(foreach::getDoParName() == "doMPI") {
+      forArgs$.options.mpi <- list(chunkSize=min(10, ceiling(nTrials/foreach::getDoParWorkers())))
       cat("Setting doMPI backend chunkSize to", forArgs$.options.mpi$chunkSize, "\n")
     }
   }
