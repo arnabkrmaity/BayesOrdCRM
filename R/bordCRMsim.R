@@ -145,7 +145,7 @@ bordCRMSim <- function (Design      = NULL,
                         TrueProbs   = NULL,
                         StartDose   = NULL,
                         CohortRnd   = list(c(  3,   4,    5,    6),
-                                         c(0.8, 0.1, 0.05, 0.05)),
+                                           c(0.8, 0.1, 0.05, 0.05)),
                         Pcutoffs    = c(0.16, 0.33),
                         Nsim        = c(1000, 2000, 2, 1),
                         Decision    = bordCRMSimDecisionRule(MaxN  = 60, mnMTD = 6, 
@@ -158,22 +158,22 @@ bordCRMSim <- function (Design      = NULL,
                         RndSeed     = 12
 )
 {
-
+  
   set.seed(RndSeed)
   SeedParam <- RndSeed
-
+  
   #SeedParam <- sample.int(10, nTrials)
-
+  
   # suppressPackageStartupMessages(require(foreach, warn.conflicts=FALSE, quietly = TRUE))
   # suppressPackageStartupMessages(require(doRNG, warn.conflicts=FALSE, quietly = TRUE))
-
+  
   if(missing(SeedParam)) {
     stop("ERROR: Random seed must be set for this operation!\nPlease specify SeedParam.")
   }
   
-
+  
   forArgs <- list(i = 1:nTrials, .options.RNG=SeedParam)
-
+  
   if(foreach::getDoParRegistered()) {
     ## for the MPI backend set the chunksize to be at most 10
     if(foreach::getDoParName() == "doMPI") {
@@ -181,13 +181,13 @@ bordCRMSim <- function (Design      = NULL,
       cat("Setting doMPI backend chunkSize to", forArgs$.options.mpi$chunkSize, "\n")
     }
   }
-
-
+  
+  
   #set.seed(RndSeed)
-
+  
   Results <- do.call(foreach::foreach, forArgs) %dorng% {
     cat("Running trial", i, "\n")
-
+    
     Ntot <- 0
     is.MTD <- FALSE
     stop.trial <- FALSE
@@ -199,20 +199,20 @@ bordCRMSim <- function (Design      = NULL,
                                   "nextunder", "nexttarget", "nextover", "nextprob",
                                   "MTD", "too.toxic", "Rhat.max", "crash", "Rseed",
                                   "WBseed")
-
-
+    
+    
     Agent   <- Design$Agent
     Doses   <- Design$Doses
     DoseRef <- Design$DoseRef
-
+    
     prior.mean <- Design$prior.mean
     prior.var  <- Design$prior.var
-
+    
     DosesAdm.obj <- NULL
     Toxicity.obj <- NULL
-
+    
     currentDoseAdm <- StartDose
-
+    
     cohort  <- 1
     crashed <- FALSE
     
@@ -227,7 +227,7 @@ bordCRMSim <- function (Design      = NULL,
       SimulationTrial[cohort, "Trial"]  <- i
       SimulationTrial[cohort, "Cohort"] <- cohort
       SimulationTrial[cohort, "Rseed"]  <- i
-
+      
       if (length(CohortRnd[[1]]) == 1) {
         CohortSize <- CohortRnd[[1]]
       }
@@ -263,23 +263,23 @@ bordCRMSim <- function (Design      = NULL,
       temp.DLT  <- ifelse(Toxicity.obj >= 4, 1, 0) 
       temp.data <- cbind(NTOX = temp.DLT, DOSEADM = DosesAdm.obj, NPAT = 1)
       
-
+      
       SimulationTrial[cohort, "Npat"] <- CohortSize
       Ntot <- Ntot + CohortSize
       SimulationTrial[cohort, "DoseAdm"] <- currentDoseAdm
       SimulationTrial[cohort, "Ntox"] <- sum(temp.DLT)  #paste0(Ntox.vec, collapse = "-")
       SimulationTrial[cohort, "true.prob"] <- TrueProbs[which(Doses == currentDoseAdm)]
       SimulationTrial[cohort, "Weight"] <- 1
-
+      
       
       current.data <- data.frame(Toxicity = as.factor(Toxicity.obj), DoseAdm = log(DosesAdm.obj))
-
+      
       n.att <- 1
       did.run <- FALSE
-
-
+      
+      
       sink(paste(Outfile, "_log.txt", sep=""))
-
+      
       while((n.att <= 10) & !did.run) {
         simSeeds <- sample.int(.Machine$integer.max, 2)
         currentRun <- try(bordCRM(Data       = current.data,
@@ -298,15 +298,15 @@ bordCRMSim <- function (Design      = NULL,
                                   alpha.min  = -1000,
                                   alpha.max  = 1000,
                                   seed       = simSeeds[1]
-                                  ))
+        ))
         did.run <- is.null(attr(currentRun, "class"))
         n.att <- n.att + 1
         SimulationTrial[cohort, "WBseed"] <- simSeeds[2]
       }
       sink()
-
+      
       #print(currentRun$Pcat)
-
+      
       if (!did.run) {
         crashed <- TRUE
         SimulationTrial[, "crash"] <- TRUE
@@ -317,7 +317,7 @@ bordCRMSim <- function (Design      = NULL,
         SimulationTrial[cohort, "under"]  <- currentRun$Pcat[, 1][which(currentDoseAdm == Doses)]
         SimulationTrial[cohort, "target"] <- currentRun$Pcat[, 2][which(currentDoseAdm == Doses)]
         SimulationTrial[cohort, "over"]   <- currentRun$Pcat[, 3][which(currentDoseAdm == Doses)]
-
+        
         #print(SimulationTrial)
         
         # prepare data for decision rule
@@ -325,30 +325,30 @@ bordCRMSim <- function (Design      = NULL,
         
         
         
-
+        
         decisionVars <- names(formals(Decision))
         decision <- do.call(Decision, mget(decisionVars))
-
+        
         too.toxic <- decision$too.toxic
         stop.trial <- decision$stop.trial
         is.MTD <- decision$is.MTD
         nextDoseAdm <- decision$DoseAdm
-
+        
         if (!too.toxic) {
-
+          
           SimulationTrial[cohort, "nextunder"] <- currentRun$Pcat[, 1][which(nextDoseAdm == Doses)]
           SimulationTrial[cohort, "nexttarget"] <- currentRun$Pcat[, 2][which(nextDoseAdm == Doses)]
           SimulationTrial[cohort, "nextover"] <- currentRun$Pcat[, 3][which(nextDoseAdm == Doses)]
           SimulationTrial[cohort, "nextprob"] <- TrueProbs[which(Doses == nextDoseAdm)]
-
-
+          
+          
           SimulationTrial[cohort, "MTD"] <- is.MTD
           SimulationTrial[cohort, "too.toxic"] <- too.toxic
           SimulationTrial[cohort, "nextDoseAdm"] <- nextDoseAdm
-
-
+          
+          
         }
-
+        
         else {
           SimulationTrial[cohort, "nextunder"] <- NA
           SimulationTrial[cohort, "nexttarget"] <- NA
@@ -357,39 +357,39 @@ bordCRMSim <- function (Design      = NULL,
           SimulationTrial[cohort, "too.toxic"] <- too.toxic
           SimulationTrial[cohort, "nextprob"] <- NA
           SimulationTrial[cohort, "nextDoseAdm"] <- nextDoseAdm
-            }
+        }
         currentDoseAdm <- nextDoseAdm
         cat(paste("Cohort: ", cohort, "\n", sep = ""))
         cohort <- cohort + 1
         #print(SimulationTrial)
       }
     }
-
+    
     mtd.done <- subset(SimulationTrial, SimulationTrial[, "MTD"] == 1)
     simsummaryTrial <- mtd.done
     #print(SimulationTrial[1:(cohort - 1), ])
     ncohort <- matrix(NA, nrow = NROW(Doses), ncol = 1)
     dltcohort <- matrix(NA, nrow = NROW(Doses), ncol = 1)
     for (l in 1:NROW(Doses)) {
-        ncohort1 <- subset(SimulationTrial, SimulationTrial[, "DoseAdm"] == Doses[l])
-        ncohort[l,1] <- sum(ncohort1[, "Npat"])
-        dltcohort[l,1] <- sum(ncohort1[, "Ntox"])
-                 }
-
+      ncohort1 <- subset(SimulationTrial, SimulationTrial[, "DoseAdm"] == Doses[l])
+      ncohort[l,1] <- sum(ncohort1[, "Npat"])
+      dltcohort[l,1] <- sum(ncohort1[, "Ntox"])
+    }
+    
     NMATRXTrial <- ncohort/sum(ncohort)
     NNMATRXTrial <- ncohort
     DLTMATRXTrial <- dltcohort
     cat(paste("Trial ", i, ": finalized.\n", sep = ""))
-
+    
     res <- list(Simulation = SimulationTrial, simsummary = simsummaryTrial,
                 NMATRX = NMATRXTrial, NNMATRX = NNMATRXTrial, DLTMATRX = DLTMATRXTrial)
     res
   }
-
-
+  
+  
   Doses = Design$Doses
   Agent =Design$Agent
-
+  
   extract <- function(struct, elem) lapply(struct, "[[", elem)
   Simulation <- extract(Results, "Simulation")
   simsummary <- extract(Results, "simsummary")
@@ -397,28 +397,28 @@ bordCRMSim <- function (Design      = NULL,
   NNMATRX <- extract(Results, "NNMATRX")
   DLTMATRX <- extract(Results, "DLTMATRX")
   RNGSEEDS <- attr(Results, "rng")
-
-
-
+  
+  
+  
   MTDsim <- list()
   simsummarys <- do.call("rbind", simsummary)
   if (NROW(simsummarys) > 0) {
     for (q in 1:nrow(simsummarys)) {
       MTDmatrix <- matrix(NA, nrow = NROW(Doses), ncol = 1)
       for (a in 1:NROW(Doses)) {
-          MTDmatrix[a, 1] <- (simsummarys[q, "DoseAdm"] == Doses[a])
-                               }
+        MTDmatrix[a, 1] <- (simsummarys[q, "DoseAdm"] == Doses[a])
+      }
       MTDsim[[q]] <- MTDmatrix
     }
   }
-
+  
   if (NROW(simsummarys) == 0) {
     MTDmatrix <- matrix(NA, nrow = NROW(Doses), ncol = 1)
-
+    
     MTDsim[[1]] <- MTDmatrix
-
+    
   }
-
+  
   res.sim=list(simul = Simulation,
                simsummary = simsummarys,
                NMATRX = NMATRX,
@@ -426,16 +426,16 @@ bordCRMSim <- function (Design      = NULL,
                DLTMATRX = DLTMATRX,
                MTDsim = MTDsim,
                RNGSEEDS = RNGSEEDS)
-
-
+  
+  
   sim.sum.Vars <- names(formals(bordCRMSimSummary))
-
+  
   sim.sum <- do.call(bordCRMSimSummary, mget(sim.sum.Vars))
-
+  
   save(list = names(res.sim), file = paste(Outfile, ".Rdata", sep = ""), envir = list2env(res.sim))
-
+  
   res.sim.f <- list(res.sim=res.sim, sim.sum= sim.sum)
-
+  
   return(res.sim.f)
-
+  
 }
