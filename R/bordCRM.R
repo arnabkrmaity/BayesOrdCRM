@@ -71,7 +71,7 @@
 #' \dontrun{
 #' data(crs.pk)
 #' 
-#' y        <- as.factor(crs.pk$CRS)
+#' y        <- as.factor(crs.pk$DLT)
 #' x        <- log(as.vector(crs.pk$Dose))
 #' DoseAdm  <- x  
 #' Toxicity <- y
