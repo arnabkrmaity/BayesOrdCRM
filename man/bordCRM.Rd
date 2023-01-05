@@ -164,4 +164,6 @@ toxicity grading. Statistics in Medicine, 30(17), 2070-2080.
 Darssan, D., Thompson, M. H., & Pettitt, A. N. (2014). 
 Incorporating adverse event relatedness into dose-finding clinical trial designs.
 Statistics in Medicine, 33(7), 1146-1161.
+
+Maity, A. K. (2023). Bayesian Dose Finding Model using Ordinal Endpoints.
 }

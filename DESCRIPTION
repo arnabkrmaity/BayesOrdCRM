@@ -1,8 +1,9 @@
 Package: BayesOrdCRM
 Title: Oncology Phase I Design and Analysis Tools for Ordinal Endpoints
-Version: 0.0.2
+Version: 0.0.3
 Authors@R: 
-    c(person("Arnab Kumar", "Maity", email = "Arnab.Maity@pfizer.com", role = c("aut", "cre")))
+    c(person("Arnab Kumar", "Maity", email = "Arnab.Maity@pfizer.com", role = c("aut", "cre")),
+    person("Satrajit", "Roychoudhury", email = "Satrajit.Roychoudhury@pfizer.com", role = "aut"))
 Description: Oncology Phase I Design and Analysis Tools for Ordinal Endpoints. 
 License: GPL-3
 Encoding: UTF-8
@@ -10,7 +11,7 @@ LazyData: true
 Depends: R (>= 3.5.0)
 Imports: crmPack, GenSA, MASS, ggplot2, doRNG, foreach, doParallel, 
          boot, pgdraw, msm, survival, mvtnorm, orderstats, reshape2, ph2bayes,
-         R2jags, coda, rjags, Brobdingnag
+         coda, Brobdingnag
 RoxygenNote: 7.1.2
 Suggests: knitr, R.rsp, gridExtra 
 VignetteBuilder: knitr, R.rsp

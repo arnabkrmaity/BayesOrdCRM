@@ -3,8 +3,8 @@
 #' @description This function performs Phase I Oncology trial simulation for single agent using Bayesian 
 #' Ordinal Regression Model (bordCRM) and Escalation with Overdose Criteria (EWOC)
 #'
-#' @param Design   Design specification: contains required parameters for \code{\link{SingleBLRM}}. This incudes provisional
-#' dose levels, reference dose, and prior specifications. See \code{\link{SingleBLRM}} for more details.
+#' @param Design Design specification: contains required parameters for \code{\link{bordCRM}}. This includes provisional
+#' dose levels, reference dose, and prior specifications. See \code{\link{bordCRM}} for more details.
 #' @param nTrials Number of simulated trials.
 #' @param TrueProbs a vector of true toxicity  probabilities for different dose levels.
 #' @param StartDose Start dose for the escalation trial
@@ -23,15 +23,10 @@
 #' @param Out.summary A txt file with simulation summary
 #' @param RndSeed Seed used for the random number generator. Required parameter
 #'
-#' @details See vignettes. browseVignettes("OncoPh1BLRM")
 #' 
 #' @references 
-#' #'Neuenschwander B, Branson M, Gsponer T. Critical aspects of the Bayesian approach to phase I
-#'cancer trials. Stat Med. 2008;27(13):2420-39.
+#' # Maity, A. K. (2023). Bayesian Dose Finding Model using Ordinal Endpoints.
 #' 
-#' Neuenschwander B, Matano A, Tang Z, Roychoudhury S,Wandel S, Bailey S. A Bayesian Industry
-#' Approach to Phase I Combination Trials in Oncology. Statistical Methods for Drug Combination
-#' Studies. Taylor & Francis, 2015.
 #' 
 #' @return Input arguments are 
 #' \item{Design}{The input data and prior information}
@@ -74,7 +69,7 @@
 #' 
 #' In addition, an R object output and a text output are generated containing all of the above. 
 #' 
-#' @seealso \code{\link{SingleBLRM}}, \code{\link{SingleBLRMSimDecisionRule}}
+#' @seealso \code{\link{bordCRM}}, \code{\link{bordCRMSimDecisionRule}}
 #' 
 #' @examples 
 #' \dontrun{
@@ -120,11 +115,11 @@
 #' nCores <- detectCores()  # number of cores
 #' cl <- makeCluster(nCores) 
 #' registerDoParallel(cl)
-#' registerDoRNG(seed = 123, once = FALSE) #SEED1 : To initiate enviorment. 
+#' registerDoRNG(seed = 123, once = FALSE) #SEED1 : To initiate environment. 
 #' # THIS IS THE IMPORTANT STEP FOR PARALLELISM AND REPRODUCIBILITY
 #' getDoParWorkers()
 #' 
-#' simulation.bord <- do.call(bordCRMSim, sim.args)
+#' simulation.bord <- do.call(bordCRMsim, sim.args)
 #' 
 #' # Stop all clusters (DO NOT CHANGE)
 #' OncoPh1BLRM:::unregister()
@@ -140,7 +135,7 @@
 
 
 
-bordCRMSim <- function (Design      = NULL,
+bordCRMsim <- function (Design      = NULL,
                         nTrials     = 1000,
                         TrueProbs   = NULL,
                         StartDose   = NULL,

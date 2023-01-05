@@ -50,6 +50,8 @@
 #' Incorporating adverse event relatedness into dose-finding clinical trial designs.
 #' Statistics in Medicine, 33(7), 1146-1161.
 #' 
+#' Maity, A. K. (2023). Bayesian Dose Finding Model using Ordinal Endpoints.
+#' 
 #' @return \item{Data}{The dataset}
 #' \item{Agent}{The agent's name}
 #' \item{prior.mean}{Prior mean used for the analysis}

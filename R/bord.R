@@ -48,6 +48,8 @@
 #' & Eskridge, K. (2015). Genomic-enabled prediction of ordinal data with Bayesian 
 #' logistic ordinal regression. G3: Genes, Genomes, Genetics, 5(10), 2113-2126.
 #' 
+#' Maity, A. K. (2023). Bayesian Dose Finding Model using Ordinal Endpoints.
+#' 
 #' 
 #' @seealso \code{\link{bordCRM}}
 #' 

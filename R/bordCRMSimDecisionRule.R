@@ -32,7 +32,7 @@
 #' ii. A minimum number of mnTOT pateints should have already been treated in the trial. 
 #' 
 #' 
-#' @seealso \code{\link{SingleBLRMSim}}
+#' @seealso \code{\link{bordCRMsim}}
 #' 
 #' @export
 
