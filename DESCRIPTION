@@ -1,6 +1,6 @@
 Package: BayesOrdCRM
 Title: Oncology Phase I Design and Analysis Tools for Ordinal Endpoints
-Version: 0.0.3
+Version: 0.0.4
 Authors@R: 
     c(person("Arnab Kumar", "Maity", email = "Arnab.Maity@pfizer.com", role = c("aut", "cre")),
     person("Satrajit", "Roychoudhury", email = "Satrajit.Roychoudhury@pfizer.com", role = "aut"))
