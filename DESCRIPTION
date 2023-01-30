@@ -8,10 +8,6 @@ Description: Oncology Phase I Design and Analysis Tools for Ordinal Endpoints.
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
-Depends: R (>= 3.5.0)
-Imports: crmPack, GenSA, MASS, ggplot2, doRNG, foreach, doParallel, 
-         boot, pgdraw, msm, survival, mvtnorm, orderstats, reshape2, ph2bayes,
-         coda, Brobdingnag
+Depends: R (>= 4.1.0)
+Imports: ggplot2, doRNG, foreach, pgdraw, msm, orderstats, Brobdingnag
 RoxygenNote: 7.1.2
-Suggests: knitr, R.rsp, gridExtra 
-VignetteBuilder: knitr, R.rsp
