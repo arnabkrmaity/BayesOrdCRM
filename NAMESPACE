@@ -3,7 +3,6 @@
 export(bord)
 export(bord.prior)
 export(bordCRM)
-export(bordCRMSimDecisionRule)
 export(bordCRMsim)
 importFrom(doRNG,"%dorng%")
 importFrom(stats,is.empty.model)

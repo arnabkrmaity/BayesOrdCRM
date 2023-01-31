@@ -1,10 +1,13 @@
 Package: BayesOrdCRM
 Title: Oncology Phase I Design and Analysis Tools for Ordinal Endpoints
-Version: 0.0.4
+Version: 0.1.0
 Authors@R: 
     c(person("Arnab Kumar", "Maity", email = "Arnab.Maity@pfizer.com", role = c("aut", "cre")),
     person("Satrajit", "Roychoudhury", email = "Satrajit.Roychoudhury@pfizer.com", role = "aut"))
 Description: Oncology Phase I Design and Analysis Tools for Ordinal Endpoints. 
+             In Phase I dose escalation trils the endpoints are often Ordinal, 
+             as a result, a Bayesin Ordinal design has been developed that can be used 
+             to carry out the Phase I trial.
 License: GPL-3
 Encoding: UTF-8
 LazyData: true

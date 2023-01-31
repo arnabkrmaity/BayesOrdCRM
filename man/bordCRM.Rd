@@ -116,10 +116,10 @@ regression paramter \eqn{\beta}
 }
 \examples{
 \dontrun{
-data(crs.pk)
+data(aegrade)
 
-y        <- as.factor(crs.pk$DLT)
-x        <- log(as.vector(crs.pk$Dose))
+y        <- as.factor(aegrade$AEgrade)
+x        <- log(as.vector(aegrade$Dose))
 DoseAdm  <- x  
 Toxicity <- y
 Data     <- data.frame(Toxicity, DoseAdm)
@@ -139,8 +139,8 @@ fit <- bordCRM(Data       = Data,
                DLT.cutoff = 3,
                Outfile    = "out_ordinal",
                Plot       = TRUE,
-               nburnin    = 500,
-               nmc        = 1000,
+               nburnin    = 50,
+               nmc        = 100,
                nlev       = 5,
                alpha.min  = -1000,
                alpha.max  = 1000,

@@ -74,9 +74,9 @@
 #' @examples 
 #' \dontrun{
 #' 
-#' data(crs.pk)
+#' data(aegrade)
 #' 
-#' Doses <- sort(unique(crs.pk$Dose))  # we want to find the toxicity probability at this dose
+#' Doses <- sort(unique(aegrade$i..Dose))  # we want to find the toxicity probability at this dose
 #' 
 #' 
 #' # Design Parameters
@@ -122,7 +122,6 @@
 #' simulation.bord <- do.call(bordCRMsim, sim.args)
 #' 
 #' # Stop all clusters (DO NOT CHANGE)
-#' OncoPh1BLRM:::unregister()
 #' stopImplicitCluster() 
 #' 
 #' simulation.bord$sim.sum

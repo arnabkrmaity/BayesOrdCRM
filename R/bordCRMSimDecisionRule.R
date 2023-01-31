@@ -29,12 +29,12 @@
 #' 
 #' i. The probability of targeted toxicity at \eqn{d} exceeds mnTAR.
 #' 
-#' ii. A minimum number of mnTOT pateints should have already been treated in the trial. 
+#' ii. A minimum number of mnTOT patients should have already been treated in the trial. 
 #' 
 #' 
 #' @seealso \code{\link{bordCRMsim}}
 #' 
-#' @export
+## #' @export
 
 
 bordCRMSimDecisionRule <- function (MaxN,

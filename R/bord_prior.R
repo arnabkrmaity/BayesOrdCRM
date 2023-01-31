@@ -65,15 +65,11 @@
 #' \item{grade.prob.post}{Predictive probabilities of doses for each adverse event grade}
 #' 
 #' @examples 
-#' \dontrun{
-#' data(crs.pk)
+#' data(aegrade)
 #' 
-#' y <- as.factor(crs.pk$CRS)
-#' x <- as.vector(crs.pk$Cmax)
-#' 
-#' fit <- bord.prior(formula    = as.factor(CRS) ~ Cmax, 
-#'                   data       = crs.pk, 
-#'                   nsample    = 1000, 
+#' fit <- bord.prior(formula    = as.factor(AEgrade) ~ Dose, 
+#'                   data       = aegrade, 
+#'                   nsample    = 100, 
 #'                   prior.mean = 0,
 #'                   prior.var  = 100, 
 #'                   Pcutoffs   = c(0.16, 0.33),
@@ -88,7 +84,6 @@
 #'               
 #'  fit$beta.post
 #'  fit$alpha.post
-#'}
 #'
 #'
 #'
