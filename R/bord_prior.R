@@ -293,7 +293,7 @@ bord.prior <- function(formula,
     
     if (iter %% 1000 == 0)
     {
-      cat("iteration = ", iter, "\n")
+      message("iteration = ", iter, "\n")
     }
     
     alpha.out[, iter]        <- alpha

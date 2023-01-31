@@ -207,7 +207,7 @@ bord <- function(formula,
   alpha <- seq(from = -2, to = 2, length.out = nlev - 1)
   beta  <- 0
   
-  cat("Markov chain monte carlo is running \n")
+  message("Markov chain monte carlo is running \n")
   
   set.seed(seed)
   for(iter in 1:niter)
@@ -366,7 +366,7 @@ bord <- function(formula,
     
     if (iter %% 1000 == 0)
     {
-      cat("iteration = ", iter, "\n")
+      message("iteration = ", iter, "\n")
     }
     
     if ((iter > nburnin) && (iter %% nthin == 0))

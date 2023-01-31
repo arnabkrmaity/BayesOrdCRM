@@ -76,7 +76,7 @@
 #' 
 #' data(aegrade)
 #' 
-#' Doses <- sort(unique(aegrade$i..Dose))  # we want to find the toxicity probability at this dose
+#' Doses <- sort(unique(aegrade$Dose))  # we want to find the toxicity probability at this dose
 #' 
 #' 
 #' # Design Parameters
@@ -112,8 +112,9 @@
 #' # Setting up back-end for parallel computing (DO NOT CHANGE)
 #' library(doParallel)
 #' require(doRNG)
-#' nCores <- detectCores()  # number of cores
-#' cl <- makeCluster(nCores) 
+#' # nCores <- detectCores()  # number of cores
+#' # cl <- makeCluster(nCores)
+#' cl <- makeCluster(2)
 #' registerDoParallel(cl)
 #' registerDoRNG(seed = 123, once = FALSE) #SEED1 : To initiate environment. 
 #' # THIS IS THE IMPORTANT STEP FOR PARALLELISM AND REPRODUCIBILITY
